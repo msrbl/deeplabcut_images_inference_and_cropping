@@ -1,5 +1,6 @@
-src/**/*.pt
-src/inference/images/*
+images/*
+results/
+resized_images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,0 +1,134 @@
+data:
+  colormode: RGB
+  inference:
+    normalize_images: true
+  train:
+    affine:
+      p: 0.5
+      rotation: 30
+      scaling:
+      - 0.5
+      - 1.25
+      translation: 0
+    covering: false
+    crop_sampling:
+      width: 1000
+      height: 1000
+      max_shift: 0.1
+      method: hybrid
+    gaussian_noise: 12.75
+    hist_eq: false
+    motion_blur: false
+    normalize_images: true
+device: auto
+metadata:
+  project_path: /content
+  pose_config_path: 
+    /content/dlc-models-pytorch/iteration-0/DLC-ProjectApr24-trainset95shuffle1/train/pytorch_config.yaml
+  bodyparts:
+  - point1
+  - point2
+  - point3
+  - point4
+  - point5
+  - point6
+  - point7
+  - point8
+  - point9
+  - point10
+  - point11
+  - point12
+  - point13
+  - point14
+  - point15
+  - point16
+  - point17
+  - point18
+  - point19
+  - point20
+  - point21
+  unique_bodyparts: []
+  individuals:
+  - animal
+  with_identity:
+method: bu
+model:
+  backbone:
+    type: ResNet
+    model_name: resnet50_gn
+    output_stride: 16
+    freeze_bn_stats: false
+    freeze_bn_weights: false
+  backbone_output_channels: 2048
+  heads:
+    bodypart:
+      type: HeatmapHead
+      weight_init: normal
+      predictor:
+        type: HeatmapPredictor
+        apply_sigmoid: false
+        clip_scores: true
+        location_refinement: true
+        locref_std: 7.2801
+      target_generator:
+        type: HeatmapGaussianGenerator
+        num_heatmaps: 21
+        pos_dist_thresh: 17
+        heatmap_mode: KEYPOINT
+        gradient_masking: false
+        generate_locref: true
+        locref_std: 7.2801
+      criterion:
+        heatmap:
+          type: WeightedMSECriterion
+          weight: 1.0
+        locref:
+          type: WeightedHuberCriterion
+          weight: 0.05
+      heatmap_config:
+        channels:
+        - 2048
+        - 21
+        kernel_size:
+        - 3
+        strides:
+        - 2
+      locref_config:
+        channels:
+        - 2048
+        - 42
+        kernel_size:
+        - 3
+        strides:
+        - 2
+net_type: resnet_50
+runner:
+  type: PoseTrainingRunner
+  gpus:
+  key_metric: test.mAP
+  key_metric_asc: true
+  eval_interval: 5
+  optimizer:
+    type: AdamW
+    params:
+      lr: 0.001
+  scheduler:
+    type: LRListScheduler
+    params:
+      lr_list:
+      - - 0.0001
+      - - 1e-05
+      milestones:
+      - 90
+      - 120
+  snapshots:
+    max_snapshots: 20
+    save_epochs: 10
+    save_optimizer_state: false
+train_settings:
+  batch_size: 4
+  dataloader_workers: 0
+  dataloader_pin_memory: false
+  display_iters: 500
+  epochs: 200
+  seed: 42

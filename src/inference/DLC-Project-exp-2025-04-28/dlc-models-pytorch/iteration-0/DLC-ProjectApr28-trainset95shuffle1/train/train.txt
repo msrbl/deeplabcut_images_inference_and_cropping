@@ -1,0 +1,451 @@
+2025-04-27 08:47:36 Training with configuration:
+2025-04-27 08:47:36 data:
+2025-04-27 08:47:36   colormode: RGB
+2025-04-27 08:47:36   inference:
+2025-04-27 08:47:36     normalize_images: True
+2025-04-27 08:47:36   train:
+2025-04-27 08:47:36     affine:
+2025-04-27 08:47:36       p: 0.5
+2025-04-27 08:47:36       rotation: 30
+2025-04-27 08:47:36       scaling: [0.5, 1.25]
+2025-04-27 08:47:36       translation: 0
+2025-04-27 08:47:36     covering: False
+2025-04-27 08:47:36     crop_sampling:
+2025-04-27 08:47:36       width: 1000
+2025-04-27 08:47:36       height: 1000
+2025-04-27 08:47:36       max_shift: 0.1
+2025-04-27 08:47:36       method: hybrid
+2025-04-27 08:47:36     gaussian_noise: 12.75
+2025-04-27 08:47:36     hist_eq: False
+2025-04-27 08:47:36     motion_blur: False
+2025-04-27 08:47:36     normalize_images: True
+2025-04-27 08:47:36 device: auto
+2025-04-27 08:47:36 metadata:
+2025-04-27 08:47:36   project_path: /content
+2025-04-27 08:47:36   pose_config_path: /content/dlc-models-pytorch/iteration-0/DLC-ProjectApr24-trainset95shuffle1/train/pytorch_config.yaml
+2025-04-27 08:47:36   bodyparts: ['point1', 'point2', 'point3', 'point4', 'point5', 'point6', 'point7', 'point8', 'point9', 'point10', 'point11', 'point12', 'point13', 'point14', 'point15', 'point16', 'point17', 'point18', 'point19', 'point20', 'point21']
+2025-04-27 08:47:36   unique_bodyparts: []
+2025-04-27 08:47:36   individuals: ['animal']
+2025-04-27 08:47:36   with_identity: None
+2025-04-27 08:47:36 method: bu
+2025-04-27 08:47:36 model:
+2025-04-27 08:47:36   backbone:
+2025-04-27 08:47:36     type: ResNet
+2025-04-27 08:47:36     model_name: resnet50_gn
+2025-04-27 08:47:36     output_stride: 16
+2025-04-27 08:47:36     freeze_bn_stats: False
+2025-04-27 08:47:36     freeze_bn_weights: False
+2025-04-27 08:47:36   backbone_output_channels: 2048
+2025-04-27 08:47:36   heads:
+2025-04-27 08:47:36     bodypart:
+2025-04-27 08:47:36       type: HeatmapHead
+2025-04-27 08:47:36       weight_init: normal
+2025-04-27 08:47:36       predictor:
+2025-04-27 08:47:36         type: HeatmapPredictor
+2025-04-27 08:47:36         apply_sigmoid: False
+2025-04-27 08:47:36         clip_scores: True
+2025-04-27 08:47:36         location_refinement: True
+2025-04-27 08:47:36         locref_std: 7.2801
+2025-04-27 08:47:36       target_generator:
+2025-04-27 08:47:36         type: HeatmapGaussianGenerator
+2025-04-27 08:47:36         num_heatmaps: 21
+2025-04-27 08:47:36         pos_dist_thresh: 17
+2025-04-27 08:47:36         heatmap_mode: KEYPOINT
+2025-04-27 08:47:36         gradient_masking: False
+2025-04-27 08:47:36         generate_locref: True
+2025-04-27 08:47:36         locref_std: 7.2801
+2025-04-27 08:47:36       criterion:
+2025-04-27 08:47:36         heatmap:
+2025-04-27 08:47:36           type: WeightedMSECriterion
+2025-04-27 08:47:36           weight: 1.0
+2025-04-27 08:47:36         locref:
+2025-04-27 08:47:36           type: WeightedHuberCriterion
+2025-04-27 08:47:36           weight: 0.05
+2025-04-27 08:47:36       heatmap_config:
+2025-04-27 08:47:36         channels: [2048, 21]
+2025-04-27 08:47:36         kernel_size: [3]
+2025-04-27 08:47:36         strides: [2]
+2025-04-27 08:47:36       locref_config:
+2025-04-27 08:47:36         channels: [2048, 42]
+2025-04-27 08:47:36         kernel_size: [3]
+2025-04-27 08:47:36         strides: [2]
+2025-04-27 08:47:36 net_type: resnet_50
+2025-04-27 08:47:36 runner:
+2025-04-27 08:47:36   type: PoseTrainingRunner
+2025-04-27 08:47:36   gpus: None
+2025-04-27 08:47:36   key_metric: test.mAP
+2025-04-27 08:47:36   key_metric_asc: True
+2025-04-27 08:47:36   eval_interval: 5
+2025-04-27 08:47:36   optimizer:
+2025-04-27 08:47:36     type: AdamW
+2025-04-27 08:47:36     params:
+2025-04-27 08:47:36       lr: 0.001
+2025-04-27 08:47:36   scheduler:
+2025-04-27 08:47:36     type: LRListScheduler
+2025-04-27 08:47:36     params:
+2025-04-27 08:47:36       lr_list: [[0.0001], [1e-05]]
+2025-04-27 08:47:36       milestones: [90, 120]
+2025-04-27 08:47:36   snapshots:
+2025-04-27 08:47:36     max_snapshots: 20
+2025-04-27 08:47:36     save_epochs: 10
+2025-04-27 08:47:36     save_optimizer_state: False
+2025-04-27 08:47:36 train_settings:
+2025-04-27 08:47:36   batch_size: 4
+2025-04-27 08:47:36   dataloader_workers: 0
+2025-04-27 08:47:36   dataloader_pin_memory: False
+2025-04-27 08:47:36   display_iters: 10
+2025-04-27 08:47:36   epochs: 100
+2025-04-27 08:47:36   seed: 42
+2025-04-27 08:47:36 Loading pretrained weights from Hugging Face hub (timm/resnet50_gn.a1h_in1k)
+2025-04-27 08:47:38 [timm/resnet50_gn.a1h_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2025-04-27 08:47:57 Training with configuration:
+2025-04-27 08:47:57 data:
+2025-04-27 08:47:57   colormode: RGB
+2025-04-27 08:47:57   inference:
+2025-04-27 08:47:57     normalize_images: True
+2025-04-27 08:47:57   train:
+2025-04-27 08:47:57     affine:
+2025-04-27 08:47:57       p: 0.5
+2025-04-27 08:47:57       rotation: 30
+2025-04-27 08:47:57       scaling: [0.5, 1.25]
+2025-04-27 08:47:57       translation: 0
+2025-04-27 08:47:57     covering: False
+2025-04-27 08:47:57     crop_sampling:
+2025-04-27 08:47:57       width: 1000
+2025-04-27 08:47:57       height: 1000
+2025-04-27 08:47:57       max_shift: 0.1
+2025-04-27 08:47:57       method: hybrid
+2025-04-27 08:47:57     gaussian_noise: 12.75
+2025-04-27 08:47:57     hist_eq: False
+2025-04-27 08:47:57     motion_blur: False
+2025-04-27 08:47:57     normalize_images: True
+2025-04-27 08:47:57 device: auto
+2025-04-27 08:47:57 metadata:
+2025-04-27 08:47:57   project_path: /content
+2025-04-27 08:47:57   pose_config_path: /content/dlc-models-pytorch/iteration-0/DLC-ProjectApr24-trainset95shuffle1/train/pytorch_config.yaml
+2025-04-27 08:47:57   bodyparts: ['point1', 'point2', 'point3', 'point4', 'point5', 'point6', 'point7', 'point8', 'point9', 'point10', 'point11', 'point12', 'point13', 'point14', 'point15', 'point16', 'point17', 'point18', 'point19', 'point20', 'point21']
+2025-04-27 08:47:57   unique_bodyparts: []
+2025-04-27 08:47:57   individuals: ['animal']
+2025-04-27 08:47:57   with_identity: None
+2025-04-27 08:47:57 method: bu
+2025-04-27 08:47:57 model:
+2025-04-27 08:47:57   backbone:
+2025-04-27 08:47:57     type: ResNet
+2025-04-27 08:47:57     model_name: resnet50_gn
+2025-04-27 08:47:57     output_stride: 16
+2025-04-27 08:47:57     freeze_bn_stats: False
+2025-04-27 08:47:57     freeze_bn_weights: False
+2025-04-27 08:47:57   backbone_output_channels: 2048
+2025-04-27 08:47:57   heads:
+2025-04-27 08:47:57     bodypart:
+2025-04-27 08:47:57       type: HeatmapHead
+2025-04-27 08:47:57       weight_init: normal
+2025-04-27 08:47:57       predictor:
+2025-04-27 08:47:57         type: HeatmapPredictor
+2025-04-27 08:47:57         apply_sigmoid: False
+2025-04-27 08:47:57         clip_scores: True
+2025-04-27 08:47:57         location_refinement: True
+2025-04-27 08:47:57         locref_std: 7.2801
+2025-04-27 08:47:57       target_generator:
+2025-04-27 08:47:57         type: HeatmapGaussianGenerator
+2025-04-27 08:47:57         num_heatmaps: 21
+2025-04-27 08:47:57         pos_dist_thresh: 17
+2025-04-27 08:47:57         heatmap_mode: KEYPOINT
+2025-04-27 08:47:57         gradient_masking: False
+2025-04-27 08:47:57         generate_locref: True
+2025-04-27 08:47:57         locref_std: 7.2801
+2025-04-27 08:47:57       criterion:
+2025-04-27 08:47:57         heatmap:
+2025-04-27 08:47:57           type: WeightedMSECriterion
+2025-04-27 08:47:57           weight: 1.0
+2025-04-27 08:47:57         locref:
+2025-04-27 08:47:57           type: WeightedHuberCriterion
+2025-04-27 08:47:57           weight: 0.05
+2025-04-27 08:47:57       heatmap_config:
+2025-04-27 08:47:57         channels: [2048, 21]
+2025-04-27 08:47:57         kernel_size: [3]
+2025-04-27 08:47:57         strides: [2]
+2025-04-27 08:47:57       locref_config:
+2025-04-27 08:47:57         channels: [2048, 42]
+2025-04-27 08:47:57         kernel_size: [3]
+2025-04-27 08:47:57         strides: [2]
+2025-04-27 08:47:57 net_type: resnet_50
+2025-04-27 08:47:57 runner:
+2025-04-27 08:47:57   type: PoseTrainingRunner
+2025-04-27 08:47:57   gpus: None
+2025-04-27 08:47:57   key_metric: test.mAP
+2025-04-27 08:47:57   key_metric_asc: True
+2025-04-27 08:47:57   eval_interval: 5
+2025-04-27 08:47:57   optimizer:
+2025-04-27 08:47:57     type: AdamW
+2025-04-27 08:47:57     params:
+2025-04-27 08:47:57       lr: 0.001
+2025-04-27 08:47:57   scheduler:
+2025-04-27 08:47:57     type: LRListScheduler
+2025-04-27 08:47:57     params:
+2025-04-27 08:47:57       lr_list: [[0.0001], [1e-05]]
+2025-04-27 08:47:57       milestones: [90, 120]
+2025-04-27 08:47:57   snapshots:
+2025-04-27 08:47:57     max_snapshots: 20
+2025-04-27 08:47:57     save_epochs: 10
+2025-04-27 08:47:57     save_optimizer_state: False
+2025-04-27 08:47:57 train_settings:
+2025-04-27 08:47:57   batch_size: 4
+2025-04-27 08:47:57   dataloader_workers: 0
+2025-04-27 08:47:57   dataloader_pin_memory: False
+2025-04-27 08:47:57   display_iters: 10
+2025-04-27 08:47:57   epochs: 100
+2025-04-27 08:47:57   seed: 42
+2025-04-27 08:47:57 Loading pretrained weights from Hugging Face hub (timm/resnet50_gn.a1h_in1k)
+2025-04-27 08:47:58 [timm/resnet50_gn.a1h_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+2025-04-27 08:47:58 Data Transforms:
+2025-04-27 08:47:58   Training:   Compose([
+  Affine(always_apply=False, p=0.5, interpolation=1, mask_interpolation=0, cval=0, mode=0, scale={'x': (0.5, 1.25), 'y': (0.5, 1.25)}, translate_percent=None, translate_px={'x': (0, 0), 'y': (0, 0)}, rotate=(-30, 30), fit_output=False, shear={'x': (0.0, 0.0), 'y': (0.0, 0.0)}, cval_mask=0, keep_ratio=True, rotate_method='largest_box'),
+  PadIfNeeded(always_apply=True, p=1.0, min_height=1000, min_width=1000, pad_height_divisor=None, pad_width_divisor=None, position=PositionType.CENTER, border_mode=0, value=None, mask_value=None),
+  KeypointAwareCrop(always_apply=True, p=1.0, width=1000, height=1000, max_shift=0.1, crop_sampling='hybrid'),
+  GaussNoise(always_apply=False, p=0.5, var_limit=(0, 162.5625), per_channel=True, mean=0),
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+2025-04-27 08:47:58   Validation: Compose([
+  Normalize(always_apply=False, p=1.0, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225], max_pixel_value=255.0),
+], p=1.0, bbox_params={'format': 'coco', 'label_fields': ['bbox_labels'], 'min_area': 0.0, 'min_visibility': 0.0, 'min_width': 0.0, 'min_height': 0.0, 'check_each_transform': True}, keypoint_params={'format': 'xy', 'label_fields': ['class_labels'], 'remove_invisible': False, 'angle_in_degrees': True, 'check_each_transform': True}, additional_targets={}, is_check_shapes=True)
+2025-04-27 08:47:58 Using 156 images and 9 for testing
+2025-04-27 08:47:58 
+Starting pose model training...
+--------------------------------------------------
+2025-04-27 08:48:18 Number of iterations: 10, loss: 0.01472, lr: 0.001
+2025-04-27 08:48:36 Number of iterations: 20, loss: 0.01451, lr: 0.001
+2025-04-27 08:48:53 Number of iterations: 30, loss: 0.01408, lr: 0.001
+2025-04-27 08:49:10 Epoch 1/100 (lr=0.001), train loss 0.01481
+2025-04-27 08:49:28 Number of iterations: 10, loss: 0.01424, lr: 0.001
+2025-04-27 08:49:47 Number of iterations: 20, loss: 0.01369, lr: 0.001
+2025-04-27 08:50:06 Number of iterations: 30, loss: 0.01326, lr: 0.001
+2025-04-27 08:50:22 Epoch 2/100 (lr=0.001), train loss 0.01362
+2025-04-27 08:50:40 Number of iterations: 10, loss: 0.01315, lr: 0.001
+2025-04-27 08:50:57 Number of iterations: 20, loss: 0.01139, lr: 0.001
+2025-04-27 08:51:16 Number of iterations: 30, loss: 0.01180, lr: 0.001
+2025-04-27 08:51:32 Epoch 3/100 (lr=0.001), train loss 0.01188
+2025-04-27 08:51:50 Number of iterations: 10, loss: 0.01141, lr: 0.001
+2025-04-27 08:52:09 Number of iterations: 20, loss: 0.01129, lr: 0.001
+2025-04-27 08:52:27 Number of iterations: 30, loss: 0.01026, lr: 0.001
+2025-04-27 08:52:44 Epoch 4/100 (lr=0.001), train loss 0.01075
+2025-04-27 08:53:02 Number of iterations: 10, loss: 0.00951, lr: 0.001
+2025-04-27 08:53:21 Number of iterations: 20, loss: 0.01074, lr: 0.001
+2025-04-27 08:53:39 Number of iterations: 30, loss: 0.00987, lr: 0.001
+2025-04-27 08:53:55 Training for epoch 5 done, starting evaluation
+2025-04-27 08:53:57 Epoch 5/100 (lr=0.001), train loss 0.01010, valid loss 0.01061
+2025-04-27 08:53:57 Model performance:
+2025-04-27 08:53:57   metrics/test.rmse:          73.35
+2025-04-27 08:53:57   metrics/test.rmse_pcutoff:    nan
+2025-04-27 08:53:57   metrics/test.mAP:            5.71
+2025-04-27 08:53:57   metrics/test.mAR:            8.89
+2025-04-27 08:54:15 Number of iterations: 10, loss: 0.01019, lr: 0.001
+2025-04-27 08:54:34 Number of iterations: 20, loss: 0.00951, lr: 0.001
+2025-04-27 08:54:52 Number of iterations: 30, loss: 0.00883, lr: 0.001
+2025-04-27 08:55:09 Epoch 6/100 (lr=0.001), train loss 0.00973
+2025-04-27 08:55:27 Number of iterations: 10, loss: 0.00921, lr: 0.001
+2025-04-27 08:55:46 Number of iterations: 20, loss: 0.00944, lr: 0.001
+2025-04-27 08:56:04 Number of iterations: 30, loss: 0.01011, lr: 0.001
+2025-04-27 08:56:20 Epoch 7/100 (lr=0.001), train loss 0.00946
+2025-04-27 08:56:39 Number of iterations: 10, loss: 0.00869, lr: 0.001
+2025-04-27 08:56:58 Number of iterations: 20, loss: 0.00842, lr: 0.001
+2025-04-27 08:57:16 Number of iterations: 30, loss: 0.00810, lr: 0.001
+2025-04-27 08:57:32 Epoch 8/100 (lr=0.001), train loss 0.00899
+2025-04-27 08:57:51 Number of iterations: 10, loss: 0.00753, lr: 0.001
+2025-04-27 08:58:10 Number of iterations: 20, loss: 0.00893, lr: 0.001
+2025-04-27 08:58:29 Number of iterations: 30, loss: 0.00935, lr: 0.001
+2025-04-27 08:58:45 Epoch 9/100 (lr=0.001), train loss 0.00858
+2025-04-27 08:59:03 Number of iterations: 10, loss: 0.00874, lr: 0.001
+2025-04-27 08:59:22 Number of iterations: 20, loss: 0.00904, lr: 0.001
+2025-04-27 08:59:41 Number of iterations: 30, loss: 0.00889, lr: 0.001
+2025-04-27 08:59:57 Training for epoch 10 done, starting evaluation
+2025-04-27 08:59:59 Epoch 10/100 (lr=0.001), train loss 0.00848, valid loss 0.00835
+2025-04-27 08:59:59 Model performance:
+2025-04-27 08:59:59   metrics/test.rmse:          27.02
+2025-04-27 08:59:59   metrics/test.rmse_pcutoff:    nan
+2025-04-27 08:59:59   metrics/test.mAP:           51.07
+2025-04-27 08:59:59   metrics/test.mAR:           58.89
+2025-04-27 09:00:18 Number of iterations: 10, loss: 0.00755, lr: 0.001
+2025-04-27 09:00:36 Number of iterations: 20, loss: 0.00771, lr: 0.001
+2025-04-27 09:00:55 Number of iterations: 30, loss: 0.00911, lr: 0.001
+2025-04-27 09:01:12 Epoch 11/100 (lr=0.001), train loss 0.00818
+2025-04-27 09:01:30 Number of iterations: 10, loss: 0.00778, lr: 0.001
+2025-04-27 09:01:49 Number of iterations: 20, loss: 0.01100, lr: 0.001
+2025-04-27 09:02:07 Number of iterations: 30, loss: 0.00971, lr: 0.001
+2025-04-27 09:02:23 Epoch 12/100 (lr=0.001), train loss 0.00807
+2025-04-27 09:02:41 Number of iterations: 10, loss: 0.00707, lr: 0.001
+2025-04-27 09:02:59 Number of iterations: 20, loss: 0.00746, lr: 0.001
+2025-04-27 09:03:16 Number of iterations: 30, loss: 0.00763, lr: 0.001
+2025-04-27 09:03:33 Epoch 13/100 (lr=0.001), train loss 0.00795
+2025-04-27 09:03:52 Number of iterations: 10, loss: 0.00643, lr: 0.001
+2025-04-27 09:04:10 Number of iterations: 20, loss: 0.00768, lr: 0.001
+2025-04-27 09:04:29 Number of iterations: 30, loss: 0.00644, lr: 0.001
+2025-04-27 09:04:45 Epoch 14/100 (lr=0.001), train loss 0.00756
+2025-04-27 09:05:03 Number of iterations: 10, loss: 0.00711, lr: 0.001
+2025-04-27 09:05:21 Number of iterations: 20, loss: 0.00834, lr: 0.001
+2025-04-27 09:05:40 Number of iterations: 30, loss: 0.00620, lr: 0.001
+2025-04-27 09:05:56 Training for epoch 15 done, starting evaluation
+2025-04-27 09:05:58 Epoch 15/100 (lr=0.001), train loss 0.00723, valid loss 0.00783
+2025-04-27 09:05:58 Model performance:
+2025-04-27 09:05:58   metrics/test.rmse:          19.74
+2025-04-27 09:05:58   metrics/test.rmse_pcutoff:    nan
+2025-04-27 09:05:58   metrics/test.mAP:           73.05
+2025-04-27 09:05:58   metrics/test.mAR:           76.67
+2025-04-27 09:06:16 Number of iterations: 10, loss: 0.00777, lr: 0.001
+2025-04-27 09:06:33 Number of iterations: 20, loss: 0.00588, lr: 0.001
+2025-04-27 09:06:52 Number of iterations: 30, loss: 0.00554, lr: 0.001
+2025-04-27 09:07:08 Epoch 16/100 (lr=0.001), train loss 0.00721
+2025-04-27 09:07:27 Number of iterations: 10, loss: 0.00753, lr: 0.001
+2025-04-27 09:07:45 Number of iterations: 20, loss: 0.00598, lr: 0.001
+2025-04-27 09:08:03 Number of iterations: 30, loss: 0.00845, lr: 0.001
+2025-04-27 09:08:20 Epoch 17/100 (lr=0.001), train loss 0.00698
+2025-04-27 09:08:39 Number of iterations: 10, loss: 0.00562, lr: 0.001
+2025-04-27 09:08:57 Number of iterations: 20, loss: 0.00672, lr: 0.001
+2025-04-27 09:09:16 Number of iterations: 30, loss: 0.00726, lr: 0.001
+2025-04-27 09:09:33 Epoch 18/100 (lr=0.001), train loss 0.00680
+2025-04-27 09:09:51 Number of iterations: 10, loss: 0.00720, lr: 0.001
+2025-04-27 09:10:10 Number of iterations: 20, loss: 0.00622, lr: 0.001
+2025-04-27 09:10:28 Number of iterations: 30, loss: 0.00679, lr: 0.001
+2025-04-27 09:10:44 Epoch 19/100 (lr=0.001), train loss 0.00674
+2025-04-27 09:11:03 Number of iterations: 10, loss: 0.00736, lr: 0.001
+2025-04-27 09:11:21 Number of iterations: 20, loss: 0.00583, lr: 0.001
+2025-04-27 09:11:40 Number of iterations: 30, loss: 0.00693, lr: 0.001
+2025-04-27 09:11:58 Training for epoch 20 done, starting evaluation
+2025-04-27 09:11:59 Epoch 20/100 (lr=0.001), train loss 0.00659, valid loss 0.00753
+2025-04-27 09:11:59 Model performance:
+2025-04-27 09:11:59   metrics/test.rmse:          16.57
+2025-04-27 09:11:59   metrics/test.rmse_pcutoff:  11.72
+2025-04-27 09:11:59   metrics/test.mAP:           71.98
+2025-04-27 09:11:59   metrics/test.mAR:           80.00
+2025-04-27 09:12:17 Number of iterations: 10, loss: 0.00432, lr: 0.001
+2025-04-27 09:12:36 Number of iterations: 20, loss: 0.00477, lr: 0.001
+2025-04-27 09:12:55 Number of iterations: 30, loss: 0.00551, lr: 0.001
+2025-04-27 09:13:11 Epoch 21/100 (lr=0.001), train loss 0.00656
+2025-04-27 09:13:30 Number of iterations: 10, loss: 0.00701, lr: 0.001
+2025-04-27 09:13:48 Number of iterations: 20, loss: 0.00714, lr: 0.001
+2025-04-27 09:14:07 Number of iterations: 30, loss: 0.00634, lr: 0.001
+2025-04-27 09:14:23 Epoch 22/100 (lr=0.001), train loss 0.00634
+2025-04-27 09:14:41 Number of iterations: 10, loss: 0.00529, lr: 0.001
+2025-04-27 09:14:59 Number of iterations: 20, loss: 0.00660, lr: 0.001
+2025-04-27 09:15:18 Number of iterations: 30, loss: 0.00544, lr: 0.001
+2025-04-27 09:15:34 Epoch 23/100 (lr=0.001), train loss 0.00570
+2025-04-27 09:15:52 Number of iterations: 10, loss: 0.00480, lr: 0.001
+2025-04-27 09:16:12 Number of iterations: 20, loss: 0.00697, lr: 0.001
+2025-04-27 09:16:30 Number of iterations: 30, loss: 0.00700, lr: 0.001
+2025-04-27 09:16:48 Epoch 24/100 (lr=0.001), train loss 0.00555
+2025-04-27 09:17:06 Number of iterations: 10, loss: 0.00441, lr: 0.001
+2025-04-27 09:17:24 Number of iterations: 20, loss: 0.00634, lr: 0.001
+2025-04-27 09:17:43 Number of iterations: 30, loss: 0.00505, lr: 0.001
+2025-04-27 09:18:00 Training for epoch 25 done, starting evaluation
+2025-04-27 09:18:01 Epoch 25/100 (lr=0.001), train loss 0.00556, valid loss 0.00689
+2025-04-27 09:18:01 Model performance:
+2025-04-27 09:18:01   metrics/test.rmse:          14.90
+2025-04-27 09:18:01   metrics/test.rmse_pcutoff:   9.53
+2025-04-27 09:18:01   metrics/test.mAP:           85.33
+2025-04-27 09:18:01   metrics/test.mAR:           88.89
+2025-04-27 09:18:20 Number of iterations: 10, loss: 0.00490, lr: 0.001
+2025-04-27 09:18:38 Number of iterations: 20, loss: 0.00521, lr: 0.001
+2025-04-27 09:18:56 Number of iterations: 30, loss: 0.00623, lr: 0.001
+2025-04-27 09:19:13 Epoch 26/100 (lr=0.001), train loss 0.00554
+2025-04-27 09:19:32 Number of iterations: 10, loss: 0.00393, lr: 0.001
+2025-04-27 09:19:50 Number of iterations: 20, loss: 0.00419, lr: 0.001
+2025-04-27 09:20:08 Number of iterations: 30, loss: 0.00578, lr: 0.001
+2025-04-27 09:20:25 Epoch 27/100 (lr=0.001), train loss 0.00535
+2025-04-27 09:20:44 Number of iterations: 10, loss: 0.00476, lr: 0.001
+2025-04-27 09:21:02 Number of iterations: 20, loss: 0.00719, lr: 0.001
+2025-04-27 09:21:20 Number of iterations: 30, loss: 0.00511, lr: 0.001
+2025-04-27 09:21:36 Epoch 28/100 (lr=0.001), train loss 0.00570
+2025-04-27 09:21:55 Number of iterations: 10, loss: 0.00536, lr: 0.001
+2025-04-27 09:22:13 Number of iterations: 20, loss: 0.00684, lr: 0.001
+2025-04-27 09:22:31 Number of iterations: 30, loss: 0.00655, lr: 0.001
+2025-04-27 09:22:48 Epoch 29/100 (lr=0.001), train loss 0.00522
+2025-04-27 09:23:06 Number of iterations: 10, loss: 0.00675, lr: 0.001
+2025-04-27 09:23:24 Number of iterations: 20, loss: 0.00471, lr: 0.001
+2025-04-27 09:23:43 Number of iterations: 30, loss: 0.00315, lr: 0.001
+2025-04-27 09:24:00 Training for epoch 30 done, starting evaluation
+2025-04-27 09:24:01 Epoch 30/100 (lr=0.001), train loss 0.00502, valid loss 0.00613
+2025-04-27 09:24:01 Model performance:
+2025-04-27 09:24:01   metrics/test.rmse:          12.27
+2025-04-27 09:24:01   metrics/test.rmse_pcutoff:   7.73
+2025-04-27 09:24:01   metrics/test.mAP:           90.95
+2025-04-27 09:24:01   metrics/test.mAR:           93.33
+2025-04-27 09:24:20 Number of iterations: 10, loss: 0.00533, lr: 0.001
+2025-04-27 09:24:37 Number of iterations: 20, loss: 0.00594, lr: 0.001
+2025-04-27 09:24:56 Number of iterations: 30, loss: 0.00584, lr: 0.001
+2025-04-27 09:25:12 Epoch 31/100 (lr=0.001), train loss 0.00518
+2025-04-27 09:25:30 Number of iterations: 10, loss: 0.00539, lr: 0.001
+2025-04-27 09:25:49 Number of iterations: 20, loss: 0.00287, lr: 0.001
+2025-04-27 09:26:09 Number of iterations: 30, loss: 0.00453, lr: 0.001
+2025-04-27 09:26:25 Epoch 32/100 (lr=0.001), train loss 0.00492
+2025-04-27 09:26:44 Number of iterations: 10, loss: 0.00408, lr: 0.001
+2025-04-27 09:27:03 Number of iterations: 20, loss: 0.00510, lr: 0.001
+2025-04-27 09:27:22 Number of iterations: 30, loss: 0.00603, lr: 0.001
+2025-04-27 09:27:39 Epoch 33/100 (lr=0.001), train loss 0.00491
+2025-04-27 09:27:57 Number of iterations: 10, loss: 0.00593, lr: 0.001
+2025-04-27 09:28:16 Number of iterations: 20, loss: 0.00381, lr: 0.001
+2025-04-27 09:28:34 Number of iterations: 30, loss: 0.00402, lr: 0.001
+2025-04-27 09:28:50 Epoch 34/100 (lr=0.001), train loss 0.00489
+2025-04-27 09:29:09 Number of iterations: 10, loss: 0.00519, lr: 0.001
+2025-04-27 09:29:27 Number of iterations: 20, loss: 0.00590, lr: 0.001
+2025-04-27 09:29:45 Number of iterations: 30, loss: 0.00427, lr: 0.001
+2025-04-27 09:30:02 Training for epoch 35 done, starting evaluation
+2025-04-27 09:30:04 Epoch 35/100 (lr=0.001), train loss 0.00464, valid loss 0.00547
+2025-04-27 09:30:04 Model performance:
+2025-04-27 09:30:04   metrics/test.rmse:           8.96
+2025-04-27 09:30:04   metrics/test.rmse_pcutoff:   6.61
+2025-04-27 09:30:04   metrics/test.mAP:           95.13
+2025-04-27 09:30:04   metrics/test.mAR:           96.67
+2025-04-27 09:30:22 Number of iterations: 10, loss: 0.00383, lr: 0.001
+2025-04-27 09:30:40 Number of iterations: 20, loss: 0.00365, lr: 0.001
+2025-04-27 09:30:59 Number of iterations: 30, loss: 0.00575, lr: 0.001
+2025-04-27 09:31:15 Epoch 36/100 (lr=0.001), train loss 0.00483
+2025-04-27 09:31:33 Number of iterations: 10, loss: 0.00552, lr: 0.001
+2025-04-27 09:31:51 Number of iterations: 20, loss: 0.00339, lr: 0.001
+2025-04-27 09:32:09 Number of iterations: 30, loss: 0.00371, lr: 0.001
+2025-04-27 09:32:25 Epoch 37/100 (lr=0.001), train loss 0.00474
+2025-04-27 09:32:44 Number of iterations: 10, loss: 0.00369, lr: 0.001
+2025-04-27 09:33:03 Number of iterations: 20, loss: 0.00351, lr: 0.001
+2025-04-27 09:33:21 Number of iterations: 30, loss: 0.00460, lr: 0.001
+2025-04-27 09:33:38 Epoch 38/100 (lr=0.001), train loss 0.00441
+2025-04-27 09:33:56 Number of iterations: 10, loss: 0.00387, lr: 0.001
+2025-04-27 09:34:14 Number of iterations: 20, loss: 0.00425, lr: 0.001
+2025-04-27 09:34:33 Number of iterations: 30, loss: 0.00554, lr: 0.001
+2025-04-27 09:34:49 Epoch 39/100 (lr=0.001), train loss 0.00444
+2025-04-27 09:35:07 Number of iterations: 10, loss: 0.00345, lr: 0.001
+2025-04-27 09:35:26 Number of iterations: 20, loss: 0.00416, lr: 0.001
+2025-04-27 09:35:44 Number of iterations: 30, loss: 0.00520, lr: 0.001
+2025-04-27 09:36:01 Training for epoch 40 done, starting evaluation
+2025-04-27 09:36:02 Epoch 40/100 (lr=0.001), train loss 0.00445, valid loss 0.00573
+2025-04-27 09:36:02 Model performance:
+2025-04-27 09:36:02   metrics/test.rmse:           9.71
+2025-04-27 09:36:02   metrics/test.rmse_pcutoff:   7.71
+2025-04-27 09:36:02   metrics/test.mAP:           92.42
+2025-04-27 09:36:02   metrics/test.mAR:           95.56
+2025-04-27 09:36:21 Number of iterations: 10, loss: 0.00438, lr: 0.001
+2025-04-27 09:36:39 Number of iterations: 20, loss: 0.00430, lr: 0.001
+2025-04-27 09:36:58 Number of iterations: 30, loss: 0.00462, lr: 0.001
+2025-04-27 09:37:16 Epoch 41/100 (lr=0.001), train loss 0.00471
+2025-04-27 09:37:34 Number of iterations: 10, loss: 0.00344, lr: 0.001
+2025-04-27 09:37:52 Number of iterations: 20, loss: 0.00553, lr: 0.001
+2025-04-27 09:38:10 Number of iterations: 30, loss: 0.00524, lr: 0.001
+2025-04-27 09:38:27 Epoch 42/100 (lr=0.001), train loss 0.00444
+2025-04-27 09:38:45 Number of iterations: 10, loss: 0.00426, lr: 0.001
+2025-04-27 09:39:04 Number of iterations: 20, loss: 0.00280, lr: 0.001
+2025-04-27 09:39:22 Number of iterations: 30, loss: 0.00403, lr: 0.001
+2025-04-27 09:39:39 Epoch 43/100 (lr=0.001), train loss 0.00445
+2025-04-27 09:39:57 Number of iterations: 10, loss: 0.00535, lr: 0.001
+2025-04-27 09:40:15 Number of iterations: 20, loss: 0.00573, lr: 0.001
+2025-04-27 09:40:33 Number of iterations: 30, loss: 0.00341, lr: 0.001
+2025-04-27 09:40:50 Epoch 44/100 (lr=0.001), train loss 0.00436
+2025-04-27 09:41:07 Number of iterations: 10, loss: 0.00572, lr: 0.001
+2025-04-27 09:41:26 Number of iterations: 20, loss: 0.00332, lr: 0.001
+2025-04-27 09:41:44 Number of iterations: 30, loss: 0.00320, lr: 0.001
+2025-04-27 09:42:01 Training for epoch 45 done, starting evaluation
+2025-04-27 09:42:02 Epoch 45/100 (lr=0.001), train loss 0.00375, valid loss 0.00546
+2025-04-27 09:42:02 Model performance:
+2025-04-27 09:42:02   metrics/test.rmse:           9.50
+2025-04-27 09:42:02   metrics/test.rmse_pcutoff:   6.76
+2025-04-27 09:42:02   metrics/test.mAP:           93.56
+2025-04-27 09:42:02   metrics/test.mAR:           95.56
+2025-04-27 09:42:21 Number of iterations: 10, loss: 0.00416, lr: 0.001
+2025-04-27 09:42:39 Number of iterations: 20, loss: 0.00550, lr: 0.001
