@@ -7,7 +7,7 @@ identity:
 
 
 # Project path (change when moving around)
-project_path: D:\university\ProjectWorkshop\SBER Reindeintification of 
+project_path: D:\university\Semester 2\ProjectWorkshop\SBER Reindeintification of
   newts\deeplabcut_images_inference_and_cropping\src\inference\DLC-Project-exp-2025-04-28
 
 
@@ -369,6 +369,9 @@ bodyparts:
 - point19
 - point20
 - point21
+
+
+# Fraction of video to start/stop when extracting frames for labeling/refinement
 
 
 # Fraction of video to start/stop when extracting frames for labeling/refinement

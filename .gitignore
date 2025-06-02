@@ -1,6 +1,7 @@
-images/*
+images/
 results/
 resized_images/
+temp/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

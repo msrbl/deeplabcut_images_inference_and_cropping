@@ -5,3 +5,4 @@ tensorflow==2.12
 tensorpack==0.11
 
 opencv-python
+streamlit
