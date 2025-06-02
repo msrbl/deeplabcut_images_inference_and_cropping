@@ -1,11 +1,10 @@
-import re
 import cv2
 
 from pathlib import Path
 from PIL import Image, ExifTags
 from typing import Union
 
-from src.config import logger
+from config import logger
 
 def resize_images(
     data_path: Union[str, Path],
